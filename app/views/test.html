@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en" style="overflow: hidden;">
+<head>
+	<title>docfrag</title>
+	<meta charset="utf-8" />
+	<link href="css/stift.site.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<svg pointer-events="visiblePainted" shape-rendering="crispEdges"
+width="100%" height="100%" overflow="visible"
+xmlns="http://www.w3.org/2000/svg" version="1.1"></svg>
+	<script src="js/jquery-1.9.1.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+window.svg = $.svg = {
+	'ns': 'http://www.w3.org/2000/svg',
+	create: function(element) {
+		return $(document.createElementNS(this.ns, element))
+	},
+	// handles & control points
+	handle: function(x, y) {
+		x = x || 0; y = y || 0;
+		return this.rect(x-2, y-2, 5, 5);//.attr({'class': '', 'stroke': '#333', 'fill': '#666'});
+		//return this.create('rect').attr({x: x-2, y: y-2, width: 5, height: 5, 'class': 'handle'})
+	},
+	// basic shapes
+	rect: function(x, y, w, h) { return this.create('rect').attr({x: x || 0, y: y || 0, width: w || 0, height: h || 0}) },
+	path: function(x, y) { return this.create('path').attr('d', 'M'+x+' '+y) },
+	g: function() { return this.create('g') }
+}
+
+
+$('svg').bind('click', loopRects);
+
+function loopRects() {
+	$('svg').empty();
+	makeRects();
+	for (var i = 10; i > 0; i--) {
+	}
+}
+
+function makeRects() {
+	var time = [Date.now()];
+
+
+	var g = svg.g().get(0),
+		frag = document.createDocumentFragment().appendChild(g)
+	;
+	for (var i = 50; i > 0; i--) {
+		frag.appendChild(svg.rect(i*20, i*10, 100-i, 100+i).attr({'stroke': 'rgba(1, 1, 1, 0.05)', 'fill': 'rgba(199, '+parseInt(i*5)+', '+parseInt(i*2)+', 0.05)'}).get(0));
+	}
+
+
+	$('svg').append(frag);
+
+	time.push(Date.now());
+
+	$('rect').each(function() { console.log(this.getBBox()); })
+
+	time.push(Date.now());
+	console.log(time[2] - time[1]);
+}
+
+	</script>
+</body>
+</html>

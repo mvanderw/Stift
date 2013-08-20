@@ -1,0 +1,403 @@
+<?php include 'elements/head.html'; ?>
+<body>
+	<section class="docs">
+		<header><?php include 'elements/header.html'; ?></header>
+		<h2>Flow</h2>
+		<h3>Opening/Insertion</h3>
+		<p>When opening or inserting new nodes, always flatten and normalize nodes first to simplify application logic.</p>
+		<h3>Shapes &amp; transformations</h3>
+		<style>
+		svg { position: absolute; left: 0; width: 100%; height: 101px; }
+		dl { margin-bottom: 121px; }
+		.example { fill: rgba(0, 0, 0, 0.4); stroke: rgba(0, 0, 0, 0.8); stroke-width: 1.5px; }
+		path.example { fill: none; }
+		</style>
+		<?php
+		$defs = '<defs><pattern id="small-grid" width="5" height="5" patternUnits="userSpaceOnUse"><path d="M 5 0 L 0 0 0 5" fill="none" stroke="rgba(255, 0, 0, 0.5)" stroke-width="0.5"/></pattern><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><rect width="50" height="50" fill="url(#small-grid)"/><path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(0, 0, 255, 0.5)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(#grid)"/>';
+		?>
+		<ul>
+			<li><dl>
+					<dt>Rect
+					<dd><code class="language-markup">&lt;rect x=coord y=coord width=length height=length rx=length ry=length /&gt;</code>
+						<br>
+						<svg><?php echo $defs; ?><rect class="example" x="125" y="25" width="50px" height="50px"/><rect class="example" x="225" y="25" width="50px" height="50px" rx="15px" ry="15px"/></svg>
+				</dl>
+			<li><dl>
+					<dt>Circle
+					<dd><code class="language-markup">&lt;circle cx=coord cy=coord r=length /&gt;</code>
+						<br>
+						<svg><?php echo $defs; ?><circle class="example" cx="150" cy="50" r="25px"/></svg>
+				</dl>
+			<li><dl>
+					<dt>Ellipse
+					<dd><code class="language-markup">&lt;ellipse cx=coord cy=coord rx=length ry=length /&gt;</code>
+						<br>
+						<svg><?php echo $defs; ?><ellipse class="example" cx="150" cy="50" rx="35px" ry="25px"/></svg>
+				</dl>
+			<li><dl>
+					<dt>Line
+					<dd><code class="language-markup">&lt;line x1=coord y1=coord x2=coord y2=coord /&gt;</code>
+						<br>
+						<svg><?php echo $defs; ?><line class="example" x1="125" y1="25" x2="175px" y2="75px"/></svg>
+				</dl>
+			<li><dl>
+					<dt>Polyline &amp; polygon
+					<dd><code class="language-markup">&lt;polyline points=list /&gt;</code>
+						<br>
+						<code class="language-markup">&lt;polygon points=list /&gt;</code>
+						<br>
+						<svg><?php echo $defs; ?><polygon class="example" points="365.766,549.781 347.727,487.461 334.24,487.461 352.278,549.645 			"/></svg>
+				</dl>
+			<li><dl>
+					<dt>Path
+					<dd><code class="language-markup">&lt;path d=pathdata pathLength=length /&gt;</code>
+						<br>
+						<svg><?php echo $defs; ?><path class="example" fill="none" transform="translate(120,50)" d="M-80.08000000000001,-7.366447781482017C-80.08000000000001,-7.366447781482016,-80.08000000000001,-7.366447781482016,-75.18622222222223,-9.578517429488656C-70.29244444444444,-11.790587077495292,-60.50488888888889,-16.21472637350857,-50.717333333333336,-17.3206427049855C-40.92977777777778,-18.426559036462425,-31.142222222222227,-16.214252403403005,-21.35466666666667,-11.750776604978155C-11.567111111111112,-7.287300806553302,-1.7795555555555511,-0.5726558427630186,8.008000000000004,5.154508041608169C17.79555555555556,10.881671925979358,27.583111111111112,15.62135473093145,37.370666666666665,17.087482515215555C47.158222222222214,18.553610299499663,56.945777777777764,16.746183063115787,66.73333333333332,12.536970600760645C76.52088888888889,8.327758138405503,86.30844444444446,1.716760450079101,96.09600000000002,-4.107364032234647C105.88355555555557,-9.931488514548395,115.67111111111113,-14.968739790849487,125.45866666666669,-16.78951880310749C135.24622222222223,-18.610297815365495,145.03377777777777,-17.21460456358041,154.8213333333333,-13.275618689552136C164.60888888888888,-9.336632815523863,174.39644444444446,-2.854354319252403,184.184,3.0446430262744877C193.97155555555554,8.94364037180138,203.75911111111108,14.2593565665837,213.54666666666665,16.427881582872363C223.3342222222222,18.59640659916102,233.12177777777777,17.617740436956026,242.90933333333334,13.963919581116931C252.6968888888889,10.31009872527784,262.4844444444445,3.9811231758046546,272.27200000000005,-1.9703753461808744C282.05955555555556,-7.921873868166403,291.84711111111113,-13.495895362664275,301.6346666666667,-16.003942347687072C311.4222222222222,-18.511989332709867,321.2097777777778,-17.954061808257585,330.99733333333336,-14.59926292474004C340.7848888888889,-11.244464041222498,350.57244444444444,-5.092793798639693,360.36,0.8886351046582979C370.1475555555555,6.870064007956289,379.9351111111111,12.681251571969469,389.72266666666667,15.519308868367029C399.5102222222222,18.35736616476459,409.2977777777777,18.222293193546527,419.08533333333327,15.179239208866743C428.87288888888884,12.13618522418696,438.6604444444444,6.185150226045452,448.448,0.19647524622966772C458.2355555555555,-5.792199733586117,468.02311111111106,-11.818514695076178,477.81066666666663,-14.975819095966505C487.59822222222215,-18.133123496856832,497.38577777777766,-18.421417337147425,507.17333333333323,-15.701648899068852C516.9608888888888,-12.981880460990277,526.7484444444444,-7.2540497445425345,536.536,-1.2808404734286092C546.3235555555555,4.692368797685315,556.1111111111111,10.910956623465424,565.8986666666667,14.375534191430337C575.6862222222222,17.84011175939525,585.4737777777777,18.55067906954497,595.2613333333334,16.16451077968163C605.048888888889,13.778342489818295,614.8364444444445,8.295438599941901,624.624,2.360348169732683C634.4115555555557,-3.574742260476534,644.1991111111113,-9.962019231018575,653.9866666666668,-13.720730708732239C663.7742222222223,-17.479442186445905,673.5617777777779,-18.609588171331197,683.3493333333334,-16.566069467476957C693.136888888889,-14.522550763622716,702.9244444444445,-9.305367371028945,712.712,-3.4309043499076295C722.4995555555556,2.4435586712136854,732.2871111111112,8.975301320862544,742.0746666666668,13.01389196114431C751.8622222222223,17.052482601426078,761.6497777777778,18.597921232340752,766.5435555555555,19.37064054779809C771.4373333333333,20.14335986325543,771.4373333333333,20.14335986325543,771.4373333333333,20.14335986325543"></path></svg>
+				</dl>
+		</ul>
+		<h2>Helpful Links</h2>
+		<ul>
+			<li><a href="http://www.w3.org/TR/SVG/Overview.html">svg 1.1 spec</a></li>
+			<li><a href="http://documentup.com/wout/svg.js">svg.js documentation</a></li>
+			<li><a href="http://xn--dahlstrm-t4a.net/links/bookmarks.php/ed/svg">SVG Samples</a></li>
+			<li><a href="http://www.useragentman.com/blog/2011/01/07/css3-matrix-transform-for-the-mathematically-challenged/">The CSS3 matrix() Transform for the Mathematically Challenged</a></li>
+			<li><a href="http://stackoverflow.com/questions/7032403/">Get dimension of a path in SVG</a></li>
+			<li><a href="http://stackoverflow.com/questions/485453/">Best way to get the Original Target</a></li>
+			<li><a href="http://stackoverflow.com/questions/14708880/">Rectangle selection of SVG elements (for Raphael)</a></li>
+			<li><a href="http://stackoverflow.com/questions/8053487/">scripting-path-data-in-svg-reading-and-modifying</a></li>
+			<li><a href="http://stackoverflow.com/questions/14208673/">how-to-draw-grid-using-html5-and-canvas-or-svg</a></li>
+			<li><a href="http://stackoverflow.com/questions/6148859/">is-it-possible-to-work-with-jquery-and-svg-directly-no-plugins</a></li>
+			<li><a href="http://stackoverflow.com/questions/13046811/">how-to-determine-size-of-raphael-object-after-scaling-rotating-it</a></li>
+			<li><a href="http://stackoverflow.com/questions/6179173/">how-is-the-getbbox-svgrect-calculated</a></li>
+			<li><a href="http://stackoverflow.com/questions/117665/">jquery-fastest-dom-insertion</a></li>
+			<li><a href="http://stackoverflow.com/questions/6773481/">How to get the MouseEvent coordinates for an element that has CSS3 Transform?</a></li>
+			<li><a href="http://stackoverflow.com/questions/10714779/">SVG's node.getScreenCTM() method failing in IE 9</a></li>
+			<li><a href="http://stackoverflow.com/questions/9786671/">Invert CSS3 Transform Matrix</a></li>
+			<li><a href="http://stackoverflow.com/questions/14684846/">Flattening SVG matrix transforms in Inkscape</a></li>
+			<li><a href="http://stackoverflow.com/questions/10126498/">apply all transform matrices</a></li>
+			<li><a href="http://jsfiddle.net/ecmanaut/2Wez8/">Fiddle for above SO question</a></li>
+			<li><a href="http://stackoverflow.com/questions/11245655/">Using d3 SVG Scale without translate</a></li>
+			<li><a href="http://voormedia.com/blog/2012/10/creating-svg-vector-graphics-for-maximum-browser-compatibility">Creating SVG vector graphics for maximum browser compatibility</a></li>
+			<li><a href="http://commons.wikimedia.org/wiki/Category:SVG">Wikimedia Commons SVG Category</a></li>
+		</ul>
+		<p>Vaguely related: https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-Browser-Polyfills</p>
+		<h2>Code Snippets</h2>
+		<h3>Tools panel CSS</h3>
+<pre><code class="language-css">/* tools */
+#tools {
+	position: fixed; top: 42px; left: 5px; bottom: 0; z-index: 15;
+	padding: 0;
+	/* ?left? */
+	left: 6px; top: 47px;
+}
+#tools li {
+	position: absolute; top: 0; left: 0;
+}
+#tools li:nth-child(2) { top: 113px; }
+#tools li:nth-child(3) { top: 174px; }
+#tools button {
+	position: absolute; top: 0; left: 0; overflow: hidden;
+	border: 1px solid #888; border-bottom-color: transparent; border-radius: 0;
+	width: 26px; height: 26px; line-height: 12px;
+	background-image: url('tools.png');
+}
+#tools button:nth-child(2) { top: 26px; }
+#tools button:nth-child(3) { top: 52px; }
+#tools button:nth-child(4) { top: 78px; }
+#tools button:first-of-type { border-radius: 3px 3px 0 0; }
+#tools button:last-of-type { border-bottom-color: #888; border-radius: 0 0 3px 3px; }
+#tools button.active { border-color: #444; }
+/* individuals */
+#tools button.selection { background-position: -4px -5px; }
+#tools button.selection-group { background-position: -4px -34px; }
+#tools button.selection-direct { background-position: -4px -71px; }
+#tools button.pen { background-position: -4px -108px; }
+#tools button.convert-anchor { background-position: -4px -147px; }
+#tools button.rectangle { background-position: -4px -247px; }
+#tools button.ellipse { background-position: -4px -247px; }
+#tools button.line { background-position: -4px -247px; }
+#tools button.pan { background-position: -4px -186px; }
+/* apply to container */
+#container.selection { cursor: url('/css/cursors/selection.cur'), default; }
+#container.selection-group { cursor: url('/css/cursors/selection-group.cur'), default; }
+#container.selection-direct { cursor: url('/css/cursors/selection-direct.cur'), default; }
+#container.pen { cursor: url('/css/cursors/pen.cur'), default; }
+#container.convert-anchor { cursor: url('/css/cursors/convert-anchor.cur'), default; }
+#container.rectangle { cursor: url('/css/cursors/crosshair2.cur'), default; }
+#container.ellipse { cursor: url('/css/cursors/crosshair2.cur'), default; }
+#container.line { cursor: url('/css/cursors/crosshair2.cur'), default; }
+#container.pan { cursor: url('/css/cursors/hand.cur'), default; }
+#container.pan.grabbing { cursor: url('/css/cursors/grabbing.cur'), default; }
+#tools button img { width: 14px; }
+/*
+#tools li {
+	cursor: pointer;
+	display: block; width: 18px; height: 18px; margin: 0 0 4px 0; padding: 4px;
+	border: 1px solid transparent; border-radius: 3px;
+	line-height: 18px;
+	text-align: center;
+}
+#tools li.active, #tools li.active:hover, #tools li:hover { background: #bbb; box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4); border-color: #666; }
+#tools li:hover { background: #ddd; box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4); border-color: #888; }
+#tools img { width: 18px; }
+*/</code></pre>
+		<h3>Raphael pan &amp; zoom plugin</h3>
+		<p><a href="https://github.com/escobar5/raphael-pan-zoom">https://github.com/escobar5/raphael-pan-zoom</a></p>
+<pre><code class="language-javascript">/**
+ * raphael.pan-zoom plugin 0.2.0
+ * Copyright (c) 2012 @author Juan S. Escobar
+ * https://github.com/escobar5
+ *
+ * licensed under the MIT license
+ */
+(function () {
+
+	Raphael.fn.panzoom = {};
+
+	Raphael.fn.panzoom = function (options) {
+		var paper = this;
+		return new PanZoom(paper, options);
+	};
+
+	var panZoomFunctions = {
+		enable: function () {
+			this.enabled = true;
+		},
+
+		disable: function () {
+			this.enabled = false;
+		},
+
+		zoomIn: function (steps) {
+			this.applyZoom(steps);
+		},
+
+		zoomOut: function (steps) {
+			this.applyZoom(steps > 0 ? steps * -1 : steps);
+		},
+
+		pan: function (deltaX, deltaY) {
+		},
+
+		isDragging: function () {
+			return this.dragTime > this.dragThreshold;
+		},
+
+		getCurrentPosition: function () {
+			return this.currPos;
+		},
+
+		getCurrentZoom: function () {
+			return this.currZoom;
+		}
+	},
+
+	PanZoom = function (el, options) {
+		var paper = el,
+			container = paper.canvas.parentNode,
+			me = this,
+			settings = {},
+			initialPos = { x: 0, y: 0 },
+			deltaX = 0,
+			deltaY = 0,
+			mousewheelevt = (/Firefox/i.test(navigator.userAgent)) ? "DOMMouseScroll" : "mousewheel";
+
+		this.enabled = false;
+		this.dragThreshold = 5;
+		this.dragTime = 0;
+
+		options = options || {};
+
+		settings.maxZoom = options.maxZoom || 9;
+		settings.minZoom = options.minZoom || 0;
+		settings.zoomStep = options.zoomStep || 0.1;
+		settings.initialZoom = options.initialZoom || 0;
+		settings.initialPosition = options.initialPosition || { x: 0, y: 0 };
+
+		this.currZoom = settings.initialZoom;
+		this.currPos = settings.initialPosition;
+
+		repaint();
+
+		container.onmousedown = function (e) {
+			var evt = window.event || e;
+			if (!me.enabled) return false;
+			me.dragTime = 0;
+			initialPos = getRelativePosition(evt, container);
+			container.className += " grabbing";
+			container.onmousemove = dragging;
+			document.onmousemove = function () { return false; };
+			if (evt.preventDefault) evt.preventDefault();
+			else evt.returnValue = false;
+			return false;
+		};
+
+		container.onmouseup = function (e) {
+			//Remove class framework independent
+			document.onmousemove = null;
+			container.className = container.className.replace(/(?:^|\s)grabbing(?!\S)/g, '');
+			container.onmousemove = null;
+		};
+
+		if (container.attachEvent) //if IE (and Opera depending on user setting)
+			container.attachEvent("on" + mousewheelevt, handleScroll);
+		else if (container.addEventListener) //WC3 browsers
+			container.addEventListener(mousewheelevt, handleScroll, false);
+
+		function handleScroll(e) {
+			if (!me.enabled) return false;
+			var evt = window.event || e,
+				delta = evt.detail ? evt.detail : evt.wheelDelta * -1,
+				zoomCenter = getRelativePosition(evt, container);
+
+			if (delta > 0) delta = -1;
+			else if (delta &lt; 0) delta = 1;
+			
+			applyZoom(delta, zoomCenter);
+			if (evt.preventDefault) evt.preventDefault();
+			else evt.returnValue = false;
+			return false;
+		}
+
+		function applyZoom(val, centerPoint) {
+			if (!me.enabled) return false;
+			me.currZoom += val;
+			if (me.currZoom &lt; settings.minZoom) me.currZoom = settings.minZoom;
+			else if (me.currZoom > settings.maxZoom) me.currZoom = settings.maxZoom;
+			else {
+				centerPoint = centerPoint || { x: paper.width/2, y: paper.height/2 };
+
+				deltaX = ((paper.width * settings.zoomStep) * (centerPoint.x / paper.width)) * val;
+				deltaY = (paper.height * settings.zoomStep) * (centerPoint.y / paper.height) * val;
+
+				repaint();
+			}
+		}
+
+		this.applyZoom = applyZoom;
+
+		function dragging(e) {
+			if (!me.enabled) return false;
+			var evt = window.event || e,
+				newWidth = paper.width * (1 - (me.currZoom * settings.zoomStep)),
+				newHeight = paper.height * (1 - (me.currZoom * settings.zoomStep)),
+				newPoint = getRelativePosition(evt, container);
+
+			deltaX = (newWidth * (newPoint.x - initialPos.x) / paper.width) * -1;
+			deltaY = (newHeight * (newPoint.y - initialPos.y) / paper.height) * -1;
+			initialPos = newPoint;
+
+			repaint();
+			me.dragTime++;
+			if (evt.preventDefault) evt.preventDefault();
+			else evt.returnValue = false;
+			return false;
+		}
+
+		function repaint() {
+			me.currPos.x = me.currPos.x + deltaX;
+			me.currPos.y = me.currPos.y + deltaY;
+
+			var newWidth = paper.width * (1 - (me.currZoom * settings.zoomStep)),
+				newHeight = paper.height * (1 - (me.currZoom * settings.zoomStep));
+
+			if (me.currPos.x &lt; 0) me.currPos.x = 0;
+			else if (me.currPos.x > (paper.width * me.currZoom * settings.zoomStep)) {
+				me.currPos.x = (paper.width * me.currZoom * settings.zoomStep);
+			}
+
+			if (me.currPos.y &lt; 0) me.currPos.y = 0;
+			else if (me.currPos.y > (paper.height * me.currZoom * settings.zoomStep)) {
+				me.currPos.y = (paper.height * me.currZoom * settings.zoomStep);
+			}
+			paper.setViewBox(me.currPos.x, me.currPos.y, newWidth, newHeight);
+		}
+	};
+
+	PanZoom.prototype = panZoomFunctions;
+
+	function getRelativePosition(e, obj) {
+		var x,y, pos;
+		if (e.pageX || e.pageY) {
+			x = e.pageX;
+			y = e.pageY;
+		}
+		else {
+			x = e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+			y = e.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+		}
+
+		pos = findPos(obj);
+		x -= pos[0];
+		y -= pos[1];
+
+		return { x: x, y: y };
+	}
+
+	function findPos(obj) {
+		var posX = obj.offsetLeft, posY = obj.offsetTop, posArray;
+		while (obj.offsetParent) {
+			if (obj == document.getElementsByTagName('body')[0]) { break; }
+			else {
+				posX = posX + obj.offsetParent.offsetLeft;
+				posY = posY + obj.offsetParent.offsetTop;
+				obj = obj.offsetParent;
+			}
+		}
+		posArray = [posX, posY];
+		return posArray;
+	}
+
+})();
+</code></pre>
+		<h3>Split bezier (Bernstein's Polynomials)</h3>
+		<p>The Bernstein Polynomial implemented in javascript reads as:</p>
+		<pre><code class="language-javascript">getBezier = function getBez(percent,p1,cp1,cp2,p2) {
+	function b1(t) { return t*t*t }
+	function b2(t) { return 3*t*t*(1-t) }
+	function b3(t) { return 3*t*(1-t)*(1-t) }
+	function b4(t) { return (1-t)*(1-t)*(1-t) }
+	return {x: p1.x*b1(percent) + cp1.x*b2(percent) + cp2.x*b3(percent) + p2.x*b4(percent)
+		, y: p1.y*b1(percent) + cp1.y*b2(percent) + cp2.y*b3(percent) + p2.y*b4(percent) }
+};</code></pre>
+		<p>Returning xy coordinates of the point laying on the given percentage of the curve.</p>
+		<h3>Split bezier (de Casteljau's algorithm)</h3>
+		<p>is a recursive or iterative algorithm for finding the fixed point and the control point of a given point (percent) on the bezier curve.
+			It does this by calculation tangents and interpolating the controlpoints on the tangent lines.
+			It is way more suitable for splitting a bezier curve as the Bernstein's polynomial only gives a point on the curve, with Casteljau it is relatively easy to return the control points of the split point.</p>
+		<p>below an iterative javascript implementation for splitting a bezier using the de-Casteljau's algorithm</p>
+		<pre><code class="language-javascript">/* returns an object containing properties b1 &amp; b2 each holding an array representing the either side of the split argument.
+be aware that the argument is destructively modified. Call splitBezier(array.slice(0)) if you need to keep the original array.
+The argument array is a representation of a quadratic bezier like [controlpoint1, controlpoint2, endpoint] (with points being objects holding x&amp;y properties. */
+
+Bezier2Poly.prototype.splitBezier = function(array, perc) {
+	array.unshift({x:0, y:0});
+	var coll = [];
+	while (array.length &gt; 0) {
+	for (var i = 0;i &lt; array.length-1; i++) {
+		coll.unshift(array[i]);
+		array[i] = this.interpolate(array[i], array[i+1], perc);
+	}
+	coll.unshift(array.pop());
+	}
+	return {b1: [{x:coll[5].x, y:coll[5].y}, {x:coll[2].x, y:coll[2].y},{x:coll[0].x, y:coll[0].y}]
+		, b2: [{x:coll[1].x - coll[0].x,y:coll[1].y-coll[0].y}, {x:coll[3].x - coll[0].x,y:coll[3].y-coll[0].y}, {x:coll[6].x - coll[0].x,y:coll[6].y-coll[0].y}]};
+}
+
+Bezier2Poly.prototype.interpolate = function (p0, p1, percent) {
+	if (typeof percent === 'undefined') percent = 0.5;
+	return  {x: p0.x + (p1.x - p0.x) * percent
+		, y: p0.y + (p1.y - p0.y) * percent};
+}</code></pre>
+		<p>stores all the points of the tangentlines in an array which is returned. Note that the 1-percentage equals the percentage for the parametric bezier version.</p>
+		<p>You can use it like:</p>
+		<pre><code class="language-javascript">var pts_red = getPoints(perc, [{x:0, y:0}, {x:x1, y:y1}, {x:x2, y:y2}, {x:x3, y:y3}]);
+var pts_blue = getPoints(1-perc, [{x:x3, y:y3}, {x:x2-x3, y:y2-y3}, {x:x1-x3, y:y1-y3}, {x:-1*x3, y:-1*y3}]);</code></pre>
+		<pre><code class="language-markup">&lt;path id="paths2" stroke-width="2" d="M#{startx} #{starty} c #{pts_red[5].x} #{pts_red[5].y}  #{pts_red[0].x} #{pts_red[0].y} #{pts_red[1].x} #{pts_red[1].y}" /&gt;
+&lt;path id="paths3" stroke-width="2" d="M#{startx + x3} #{starty + y3} c #{pts_blue[5].x} #{pts_blue[5].y} #{pts_blue[0].x} #{pts_blue[0].y} #{pts_blue[1].x} #{pts_blue[1].y}" /&gt;</code></pre>
+	</section>
+
+	<?php include 'elements/dialogs.html'; ?>
+	<?php include 'elements/tail.html'; ?>
+</body>
+</html>

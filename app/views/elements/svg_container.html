@@ -1,0 +1,75 @@
+<div class="svg">
+	<svg
+		class="container selection" 
+		width="4000px" height="4000px" viewBox="0 0 4000 4000"
+		xmlns="http://www.w3.org/2000/svg" version="1.1" 
+	>
+		<defs>
+			<style type="text/css"><![CDATA[
+				/*
+				.handles-g .handle { fill: #fff; stroke: #000; stroke-width: 1px; }
+				.handles-g rect { fill: none; stroke: #000; stroke-width: 1px; }
+				*/
+				image { pointer-events: none; }
+				.handles-g * { -webkit-transition: 200ms; }
+				.handles-g rect:not(:first-child) { fill: rgba(215, 225, 255, 1); stroke: rgba(35, 45, 95, 1); stroke-width: 1px; stroke-opacity: 1; -webkit-transition: all 200ms; }
+				.selection-direct .handles-g rect:not(:first-child) {  }
+				.selection-direct .handles-g rect:not(:first-child):hover { stroke-width: 9px; -webkit-transition: 200ms; }
+			]]></style>
+			<!-- grid -->
+			<pattern id="smallGrid" width="10" height="10" patternUnits="userSpaceOnUse">
+				<path d="M 10 0 L 0 0 0 10" fill="none" stroke="#ccc" stroke-width="0.5"/>
+			</pattern>
+			<pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse">
+				<rect width="100" height="100" fill="url(#smallGrid)"/>
+				<path d="M 100 0 L 0 0 0 100" fill="none" stroke="#ccc" stroke-width="1"/>
+			</pattern>
+			<!-- drop shadow -->
+			<filter id="dropshadow" height="130%">
+				<feGaussianBlur in="SourceAlpha" stdDeviation="40"/> <!-- stdDeviation is how much to blur -->
+				<feOffset dx="6" dy="6" result="offsetblur"/> <!-- how much to offset -->
+				<feMerge> 
+					<feMergeNode/> <!-- this contains the offset blurred image -->
+					<feMergeNode in="SourceGraphic"/> <!-- this contains the element that the filter is applied to -->
+				</feMerge>
+			</filter>
+			<symbol id="__edgeMark" overflow="visible" pointer-events="none">
+				<g transform="translate(-16 -16)" opacity="0.25">
+					<path fill="none" stroke="#FFFFFF" stroke-width="3.3893" stroke-miterlimit="10" d="M29.931,16.373
+						c0,7.489-6.068,13.56-13.558,13.56c-7.483,0-13.557-6.072-13.557-13.56c0-7.486,6.074-13.554,13.557-13.554
+						C23.862,2.819,29.931,8.887,29.931,16.373z"/>
+					<line fill="none" stroke="#FFFFFF" stroke-width="3.3893" stroke-miterlimit="10" x1="0.104" y1="16.373" x2="32.642" y2="16.373"/>
+					<line fill="none" stroke="#FFFFFF" stroke-width="3.3893" stroke-miterlimit="10" x1="16.373" y1="0.104" x2="16.373" y2="32.642"/>
+					<path fill="none" stroke="#FFFFFF" stroke-width="3.3893" stroke-miterlimit="10" d="M24.508,16.373
+						c0,4.496-3.638,8.135-8.135,8.135c-4.491,0-8.135-3.638-8.135-8.135c0-4.489,3.644-8.135,8.135-8.135
+						C20.869,8.239,24.508,11.884,24.508,16.373z"/>
+					<path fill="none" stroke="#000000" stroke-width="0.6778" stroke-miterlimit="10" d="M29.931,16.373
+						c0,7.489-6.068,13.56-13.558,13.56c-7.483,0-13.557-6.072-13.557-13.56c0-7.486,6.074-13.554,13.557-13.554
+						C23.862,2.819,29.931,8.887,29.931,16.373z"/>
+					<line fill="none" stroke="#000000" stroke-width="0.6778" stroke-miterlimit="10" x1="0.104" y1="16.373" x2="32.642" y2="16.373"/>
+					<line fill="none" stroke="#000000" stroke-width="0.6778" stroke-miterlimit="10" x1="16.373" y1="0.104" x2="16.373" y2="32.642"/>
+					<path d="M24.508,16.373c0,4.496-3.638,8.135-8.135,8.135c-4.491,0-8.135-3.638-8.135-8.135c0-4.489,3.644-8.135,8.135-8.135
+						C20.869,8.239,24.508,11.884,24.508,16.373"/>
+					<line fill="none" stroke="#FFFFFF" stroke-width="0.6778" stroke-miterlimit="10" x1="8.239" y1="16.373" x2="24.508" y2="16.373"/>
+					<line fill="none" stroke="#FFFFFF" stroke-width="0.6778" stroke-miterlimit="10" x1="16.373" y1="8.239" x2="16.373" y2="24.508"/>
+				</g>
+			</symbol>
+		</defs>
+		<g class="cbg" pointer-events="none">
+			<!--<rect pointer-events="none" width="100%" height="100%" fill="#f6f6f6"/>-->
+			<rect pointer-events="none" width="100%" height="100%" fill="url(#grid)"/>
+			<use x="100" y="100" xlink:href="#__edgeMark"/>
+			<use x="1900" y="100" xlink:href="#__edgeMark"/>
+			<use x="1900" y="1900" xlink:href="#__edgeMark"/>
+			<use x="100" y="1900" xlink:href="#__edgeMark"/>
+		</g>
+		<rect class="artboard" pointer-events="none" shape-rendering="crispEdges" width="600" height="600" x="600" y="600" fill="rgba(255, 255, 255, 1)" stroke="#000" stroke-width="1" opacity="1"/>
+		<svg
+			class="paper"
+			pointer-events="visiblePainted" shape-rendering="geometricPrecision"
+			width="600" height="600" x="600" y="600" viewBox="0 0 600 600" overflow="visible"
+			xmlns="http://www.w3.org/2000/svg" version="1.1"
+		></svg>
+		<svg pointer-events="painted" class="ui" width="800" height="800" x="600" y="600" overflow="visible" xmlns="http://www.w3.org/2000/svg" version="1.1"><g></g></svg>
+	</svg>
+</div>

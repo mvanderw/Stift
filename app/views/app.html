@@ -1,0 +1,213 @@
+<?php include 'elements/head.html'; ?>
+<body style="overflow: hidden;">
+	<script type="text/javascript">
+		window.onerror = function(msg, url, line) {
+			if (console.warn) console.warn(url +':'+ line +' '+ msg);
+			if (!Carbon.initialized) document.getElementById('_bomb').style.display = 'block';
+			return true; // http://stackoverflow.com/q/951791
+		};
+	</script>
+	<div class="loading-svg" style="position: fixed; z-index: 980; top: 0; right: 0; bottom: 0; left: 0; background: #3a3a3b; background: #f9f8f7;">
+		<div style="height: 124px; width: 480px; top: 50%; left: 50%; margin-top: -62px; margin-left: -240px; position: absolute; ">
+			<div style="margin-left: -3px; font: 40px SourceSansProSemibold, Arial, sans-serif; letter-spacing: -2px; color: #31302f; text-shadow: 2px 2px 0 #ccc; ">
+				Loading
+			</div>
+			<p>This app requires support for SVG graphics.<br>Visit <a href="http://whatbrowser.org/">whatbrowser.org</a> for help updating your browser.</p>
+			<p style="text-align: right"><a href="/">Return to the homepage</a></p>
+		</div>
+	</div>
+	<div id="_bomb" style="display: none; position: fixed; z-index: 9998; top: 0; right: 0; bottom: 0; left: 0; background: #3a3a3b; background: #f9f8f7;">
+		<div style="height: 124px; width: 480px; top: 50%; left: 50%; margin-top: -62px; margin-left: -240px; position: absolute; ">
+			<div style="margin-left: -3px; font: 40px SourceSansProSemibold, Arial, sans-serif; letter-spacing: -2px; color: #31302f; text-shadow: 2px 2px 0 #ccc; ">
+				Error
+			</div>
+			<p>This app requires support for SVG graphics.<br>Visit <a href="http://whatbrowser.org/">whatbrowser.org</a> for help updating your browser.</p>
+			<p style="text-align: right"><a href="/">Return to the homepage</a></p>
+		</div>
+	</div>
+	<div id="open-file" style="display: none; position: fixed; z-index: 9998; top: 0; right: 0; bottom: 0; left: 0; background: #3a3a3b; background: #f9f8f7;">
+		<ul><?php
+		foreach ($filelist as $file) {
+			$ext = pathinfo($file[1], PATHINFO_EXTENSION);
+			$base = pathinfo($file[1], PATHINFO_FILENAME);
+			if ($ext == 'svg') {
+				echo '<li data-action="fopen" data-url="'. $file[1] .'"><img src="/png/'. $base.'.png" alt="">'. $file[1] .'</li>';
+			}
+		}
+		?></ul>
+	</div>
+	<div class="no-svg-alert">
+		<div style="height: 124px; width: 480px; top: 50%; left: 50%; margin-top: -62px; margin-left: -240px; position: absolute; ">
+			<div style="margin-left: -3px; font: 40px SourceSansProSemibold, Arial, sans-serif; letter-spacing: -2px; color: #fafafa; text-shadow: 2px 2px 0 #000; ">
+				Sorry
+			</div>
+			<p>This app requires support for SVG graphics.<br>Visit <a href="http://whatbrowser.org/">whatbrowser.org</a> for help updating your browser.</p>
+			<p style="text-align: right"><a href="/">Return to the homepage</a></p>
+		</div>
+	</div>
+	<section class="app">
+		<div class="log"></div>
+		<div class="chrome">
+			<header>
+				<?php include 'elements/header.html'; ?>
+			</header>
+			<div class="panel tools">
+				<form>
+					<fieldset>
+						<legend>&nbsp;</legend>
+						<div><ul>
+							<li>
+								<button class="selection active" data-action="tool" data-tool="selection"></button>
+								<button class="selection-group" data-action="tool" data-tool="selection-group"></button>
+								<button class="selection-direct" data-action="tool" data-tool="selection-direct"></button>
+								<button class="pan" data-action="tool" data-tool="pan"></button>
+							</li>
+							<li>
+								<button class="pen" data-action="tool" data-tool="pen"></button>
+								<button class="convert-anchor" data-action="tool" data-tool="convert-anchor"></button>
+							</li>
+							<li>
+								<button class="rectangle" data-action="tool" data-tool="rectangle"></button>
+								<button class="ellipse" data-action="tool" data-tool="ellipse"></button>
+								<button class="line" data-action="tool" data-tool="line"></button>
+							</li>
+							<li style="height: 37px">
+								<div class="picker fill"><div class="_bg"></div><div class="_value"></div></div>
+								<div class="picker stroke"><div class="_bg"></div><div class="_fg"></div><div class="_value"></div></div>
+							</li>
+						</ul></div>
+					</fieldset>
+				</form>
+			</div>
+			<div class="panel inspector">
+				<div style="height: 25px; background: rgba(0, 0, 0, 0.5)">
+					<h1 style="font-size: 16px; top: 5px; margin: 0 9px 0 10px"><a data-go="home" href="/">Stift</a></h1>
+					<menu>
+						<ul>
+							<li><a class="select">File<ul><li>New&hellip;<li data-action="fopen">Open&hellip;<li>Insert&hellip;<li>Export&hellip;<li data-action="view-svg-source">View SVG Source&hellip;</ul></a>
+							<li><a class="select">Edit<ul><li>Undo<li>Redo<li>Cut<li>Copy<li>Paste<li>Backward<li>Forward</ul></a>
+							<li><a class="select">View<ul><li data-action="toggle-artboard">Toggle Artboard<li data-action="toggle-grid">Toggle Grid</ul></a>
+						</ul>
+					</menu>
+				</div>
+				<form class="context">
+					<fieldset>
+						<div>
+					<nav style="top: 5px;">
+						<ul>
+							<li><a data-action="collapse-inspector" class="button collapse-inspector"><span style="font-size:9px;line-height:0">&#x25bc;</span></a><a class="button" data-go="app" href="/stift">A</a><a class="select" data-noop="noop"><span style="position: relative; top: 2px;">&#9825;</span><ul><li>Test<li>Test2<li>Test3</ul></a><a class="button" data-go="docs" href="/docs">D</a><a class="button" data-action="toggle-artboard">B</a>
+						</ul>
+					</nav>
+						</div>
+					</fieldset>
+				</form>
+				<form class="context">
+					<fieldset>
+						<div>
+							<ul class="props">
+								<li class="type">Welcome to <?php echo $appName .' <span style="position: absolute; top: -2px; right: 0; font-family: ocra; font-size: 10px; color: #999">'. $appVersion .'</span>'; ?>
+								<li class="basic-props"><ul>
+									<li class="x"><label>x<input class="picker x" /></label>
+									<li class="y"><label>y<input class="picker y" /></label>
+									<li class="width"><label>w<input class="picker width" /></label>
+									<li class="height"><label>h<input class="picker height" /></label>
+								</ul>
+								<li><label>line width<input data-attr="stroke-width" class="picker stroke-width" /></label>
+								<li><label>opacity<input data-attr="opacity" class="picker opacity" /></label>
+								<li><label>fill color<input data-attr="fill" class="picker fill" /></label>
+								<li><label>line color<input data-attr="stroke" class="picker stroke" /></label>
+								<!--
+								<li class=""><a class="button" data-action="view-svg-source">source</a>
+								<li class=""><a class="select" data-action="select-select">select<ul><li>Test<li>Test2<li>Test3</ul></a>
+								<li class=""><a class="button" data-action="view-svg-source"><span style="position:relative;top:1px;text-shadow: 0 1px 0 #000;">&#9825;</span></a><a class="button" data-action="view-svg-source">select</a><a class="button" data-action="view-svg-source">File</a><a class="button" data-action="view-svg-source">fileg</a></li>
+								-->
+							</ul>
+						</div>
+					</fieldset>
+				</form>
+				<form class="fill scrollable">
+					<fieldset>
+						<legend>Palette</legend>
+						<div>
+							<div class="panel-scrollbar"><div></div></div>
+							<div><ul></ul></div>
+						</div>
+					</fieldset>
+				</form>
+				<form class="attributes scrollable">
+					<div class="panel-scrollbar"><div></div></div>
+					<fieldset>
+						<legend>Attributes</legend>
+						<div>
+							<table>
+								<thead><tr><td>Attribute</td><td>Value</td></tr></thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</fieldset>
+				</form>
+				<form class="stroke">
+					<fieldset>
+						<legend>Stroke</legend>
+					</fieldset>
+				</form>
+				<form class="type">
+					<fieldset>
+						<legend>Type</legend>
+					</fieldset>
+				</form>
+				<form class="style">
+					<fieldset>
+						<legend>Style</legend>
+					</fieldset>
+				</form>
+				<!--
+				<form class="filter">
+					<fieldset>
+						<legend>Filter</legend>
+					</fieldset>
+				</form>
+				<form class="transform">
+					<fieldset>
+						<legend>Transform</legend>
+					</fieldset>
+				</form>
+				<form class="layers">
+					<fieldset>
+						<legend>Layers</legend>
+					</fieldset>
+				</form>
+				<form class="assets">
+					<fieldset>
+						<legend>Assets</legend>
+					</fieldset>
+				</form>
+				-->
+			</div>
+			<div class="scrollbar scrollbar-x"><div class="scrollbar-thumb"></div></div>
+			<div class="scrollbar scrollbar-y"><div class="scrollbar-thumb"></div></div>
+			<div class="status">
+				<div class="x">X</div><div class="y">Y</div><div class="zoom-level"></div><div class="latency">L</div><div class="el"></div>
+				<button class="micro-button pan-to-center"></button>
+				<button class="micro-button zoom-in"></button>
+				<button class="micro-button zoom-out"></button>
+			</div>
+		</div>
+		<?php include 'elements/svg_container.html'; ?>
+	</section>
+	<div style="display: none; position: fixed; z-index: 9999; overflow: scroll; top: 0; right: 0; bottom: 0; left: 0; padding: 20px; background: #fafafa; color: #111;">
+		<pre><code></code></pre>
+	</div>
+	<?php include 'elements/dialogs.html'; ?>
+	<?php include 'elements/tail.html'; ?>
+	<script src="js/jquery.event.move.js" type="text/javascript"></script>
+	<script src="js/raphael.js" type="text/javascript"></script>
+	<script src="js/wgxpath.install.js" type="text/javascript"></script>
+	<script src="js/sylvester.js" type="text/javascript"></script>
+	<script src="js/stift.plugins.js" type="text/javascript"></script>
+	<script src="js/stift.defs.js" type="text/javascript"></script>
+	<script src="js/stift.app.js" type="text/javascript"></script>
+	<script src="js/stift.ui.js" type="text/javascript"></script>
+	<script src="js/stift.bindings.js" type="text/javascript"></script>
+</body>
+</html>
